@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <title>FORM</title>
+    </head>
+    <link rel="stylesheet" href="style1.css">
+    <body>
+        <div class="hello">
+            <h1 class="hi">PERSONAL FORM</h1>
+            <hr>
+            <h2>User Information</h2>
+            <form id="personalForm" onsubmit="return handleSubmit()">
+                <p>
+                    Name:
+                    <input type="text" placeholder="Enter your name" required name="name">
+                </p>
+                <p>
+                    <fieldset>
+                        <legend>Gender</legend>
+                        Male<input type="radio" name="gender" value="male">
+                        Female<input type="radio" name="gender" value="female">
+                    </fieldset>
+                </p>
+                <p>
+                    Address:
+                    <textarea rows="5" cols="50" placeholder="Enter your address" name="address"></textarea>
+                </p>
+                <p>
+                    Email: <input type="email" placeholder="Enter your email" required name="email">
+                </p>
+                <p>
+                    Pincode: <input type="password" placeholder="123456" required name="pincode">
+                </p>
+                <h2>Payment Information</h2>
+                <p>
+                    Card Type:
+                    <select name="cardType" required>
+                        <option value="">--select card type--</option>
+                        <option value="credit">Credit Card</option>
+                        <option value="debit">Debit Card</option>
+                    </select>
+                </p>
+                <p>
+                    Expiry Date: <input type="date" required name="expiryDate">
+                </p>
+                <p>
+                    CVV: <input type="text" placeholder="123" required name="cvv" maxlength="3">
+                </p>
+                <p>
+                    <input type="submit" value="Submit">
+                </p>
+            </form>
+            <p id="error-message" style="color: red;"></p>
+        </div>
+
+        <script>
+            function validateForm() {
+                let form = document.getElementById('personalForm');
+                let errorMessage = document.getElementById('error-message');
+
+                // Clear any previous error messages
+                errorMessage.textContent = "";
+
+                let name = form["name"].value;
+                let gender = form["gender"].value;
+                let address = form["address"].value;
+                let email = form["email"].value;
+                let pincode = form["pincode"].value;
+                let cardType = form["cardType"].value;
+                let expiryDate = form["expiryDate"].value;
+                let cvv = form["cvv"].value;
+
+                // Validation: Check if all fields are filled
+                if (!name || !gender || !address || !email || !pincode || !cardType || !expiryDate || !cvv) {
+                    errorMessage.textContent = "Please enter the missing details.";
+                    return false;
+                }
+
+                // Condition 1: Name should only contain alphabets (no numbers)
+                let namePattern = /^[A-Za-z\s]+$/;
+                if (!namePattern.test(name)) {
+                    errorMessage.textContent = "Name should only contain alphabets.";
+                    return false;
+                }
+
+                // Condition 2: Email should be a valid Gmail address
+                let emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+                if (!emailPattern.test(email)) {
+                    errorMessage.textContent = "Please enter a valid Gmail address (e.g., user@gmail.com).";
+                    return false;
+                }
+
+                // Condition 3: Pincode should be exactly 6 digits
+                let pincodePattern = /^[0-9]{6}$/;
+                if (!pincodePattern.test(pincode)) {
+                    errorMessage.textContent = "Pincode should contain exactly 6 digits.";
+                    return false;
+                }
+
+                // Condition 4: CVV should be exactly 3 digits and contain only numbers
+                let cvvPattern = /^[0-9]{3}$/;
+                if (!cvvPattern.test(cvv)) {
+                    errorMessage.textContent = "CVV should contain exactly 3 digits.";
+                    return false;
+                }
+
+                return true;
+            }
+
+            function handleSubmit() {
+                if (validateForm()) {
+                    // If form is valid, redirect to the Thank You page
+                    window.location.href = "thankyou.html";
+                    return false; // Prevent default form submission
+                }
+                return false;
+            }
+        </script>
+    </body>
+</html>
